@@ -15,6 +15,7 @@ namespace HorskopJaAjaplaan
         DatePicker dtpicker;
         StackLayout st;
         Label hrlbl;
+        Image img = new Image();
         public Horoskop()
         {
             st = new StackLayout()
@@ -42,6 +43,22 @@ namespace HorskopJaAjaplaan
             };
             st.Children.Add(hrlbl);
 
+            img.Source = ImageSource.FromFile("QuestionMark.jpg");
+            st.Children.Add(img);
+
+            Button TagasiBtn = new Button
+            {
+                Text = "Tagasi",
+                BackgroundColor = Color.White,
+                TextColor = Color.Black,
+            };
+            TagasiBtn.Clicked += TagasiBtn_Clicked;
+            st.Children.Add(TagasiBtn);
+        }
+
+        private async void TagasiBtn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
 
         private void Dtpicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -50,6 +67,8 @@ namespace HorskopJaAjaplaan
             var paev = e.NewDate.Day;
             //string[] margid = {"Kaljukits", "Veevalaja", "Kalad", "Jäär", "Sõnn", "Kaksikud",
             //                "Vähk", "Lõvi", "Neitsi", "Kaalud", "Skorpion", "Ambur"};
+            string[] pildid = { "kaljukits.PNG", "veevalaja.PNG", "kalad.PNG", "jaar.PNG", "sonn.PNG", "kaksikud.PNG", "vahk.PNG", "lovi.PNG", "neitsi.PNG",
+                                "kaalud.PNG", "skorpion.PNG", "ambur.PNG" };
             string[] kirjeldus = {
                 "Kaljukits on zodiaki kümnendas tähemärgis ja seda sümboliseerib mägiveis. Selle märgi all sündinud inimesed on tuntud oma ambitsioonikuse, distsipliini ja praktilisuse poolest.",
                 "Veevalaja on zodiaki üheteistkümnes tähemärk ja seda sümboliseerib veekandja. Selle märgi all sündinud inimesed on tuntud oma iseseisvuse, eksentrilisuse ja humanitaarteaduste poolest.",
@@ -66,6 +85,7 @@ namespace HorskopJaAjaplaan
             int[] loige = { 20, 19, 20, 20, 21, 21, 22, 23, 23, 23, 22, 21 };
             int index = (paev <= loige[kuu - 1]) ? kuu - 1 : (kuu + 10) % 12;
 
+            img.Source = ImageSource.FromFile(pildid[index]);
             hrlbl.Text = kirjeldus[index];
         }
     }
